@@ -1,0 +1,95 @@
+import { useForm } from "react-hook-form";
+import { useLocalStorage } from "./useLocalStorage";
+
+type JiraTicket = {
+  description: string;
+  clientDetails: {
+    clientName: string;
+    clientId: number;
+  };
+};
+
+export default function JiraTicket() {
+  let defaultValues: JiraTicket;
+
+  try {
+    const parsedData: JiraTicket = JSON.parse(
+      localStorage.getItem("jiraTicket") as string,
+    );
+
+    defaultValues = {
+      description: parsedData.description,
+      clientDetails: {
+        clientName: parsedData?.clientDetails?.clientName,
+        clientId: parsedData?.clientDetails?.clientId,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    defaultValues = {
+      description: "",
+      clientDetails: {
+        clientName: "",
+        clientId: undefined,
+      },
+    };
+  }
+  const [jiraTicket, setJiraTicket, removeJiraTicket] = useLocalStorage(
+    "jiraTicket",
+    undefined,
+  );
+
+  const { register, reset, getValues } = useForm<JiraTicket>({
+    defaultValues: defaultValues,
+  });
+
+  function handleSave() {
+    const formValues = getValues();
+    setJiraTicket(formValues);
+  }
+
+  function handleReset() {
+    removeJiraTicket();
+    reset();
+  }
+
+  return (
+    <>
+      <div>
+        <form>
+          <label>
+            Client Name
+            <input type="text" {...register("clientDetails.clientName")} />
+          </label>
+          <label>
+            Client Id
+            <input type="number" {...register("clientDetails.clientId")} />
+          </label>{" "}
+          <label>
+            Ticket Description
+            <input type="text" {...register("description")} />
+          </label>
+          <div>Where did you test? </div>
+          <label>
+            <input type="checkbox" value="UAT" />
+            UAT
+          </label>
+          <label>
+            <input type="checkbox" value="UAT" />
+            Inttest
+          </label>
+          <label>
+            <input type="checkbox" value="UAT" />
+            UAT CJE
+          </label>
+          <label>
+            <input type="checkbox" value="UAT" />
+            QA10
+          </label>
+        </form>
+        <button onClick={handleReset}>Reset Ticket</button>
+        <button onClick={handleSave}>Save Ticket</button>
+      </div>
+    </>
+  );
+}
