@@ -5,42 +5,26 @@ type JiraTicket = {
   description: string;
   clientDetails: {
     clientName: string;
-    clientId: number;
+    clientId: number | undefined;
   };
 };
 
 export default function JiraTicket() {
-  let defaultValues: JiraTicket;
+  let defaultValues: JiraTicket = {
+    description: "",
+    clientDetails: {
+      clientName: "",
+      clientId: undefined,
+    },
+  };
 
-  try {
-    const parsedData: JiraTicket = JSON.parse(
-      localStorage.getItem("jiraTicket") as string,
-    );
-
-    defaultValues = {
-      description: parsedData.description,
-      clientDetails: {
-        clientName: parsedData?.clientDetails?.clientName,
-        clientId: parsedData?.clientDetails?.clientId,
-      },
-    };
-  } catch (error) {
-    console.log(error);
-    defaultValues = {
-      description: "",
-      clientDetails: {
-        clientName: "",
-        clientId: undefined,
-      },
-    };
-  }
   const [jiraTicket, setJiraTicket, removeJiraTicket] = useLocalStorage(
     "jiraTicket",
-    undefined,
+    defaultValues,
   );
 
   const { register, reset, getValues } = useForm<JiraTicket>({
-    defaultValues: defaultValues,
+    defaultValues: jiraTicket,
   });
 
   function handleSave() {
