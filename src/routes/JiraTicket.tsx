@@ -5,7 +5,7 @@ type JiraTicket = {
   description: string;
   clientDetails: {
     clientName: string;
-    clientId: number | undefined;
+    clientId: string;
   };
 };
 
@@ -14,7 +14,7 @@ export default function JiraTicket() {
     description: "",
     clientDetails: {
       clientName: "",
-      clientId: undefined,
+      clientId: "",
     },
   };
 
@@ -24,7 +24,8 @@ export default function JiraTicket() {
   );
 
   const { register, reset, getValues } = useForm<JiraTicket>({
-    defaultValues: jiraTicket,
+    defaultValues: defaultValues,
+    values: jiraTicket,
   });
 
   function handleSave() {
@@ -47,8 +48,8 @@ export default function JiraTicket() {
           </label>
           <label>
             Client Id
-            <input type="number" {...register("clientDetails.clientId")} />
-          </label>{" "}
+            <input type="text" {...register("clientDetails.clientId")} />
+          </label>
           <label>
             Ticket Description
             <input type="text" {...register("description")} />
