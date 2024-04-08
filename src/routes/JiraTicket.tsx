@@ -7,6 +7,7 @@ type JiraTicket = {
     clientName: string;
     clientId: string;
   };
+  testingEvnironments: [];
 };
 
 export default function JiraTicket() {
@@ -16,6 +17,7 @@ export default function JiraTicket() {
       clientName: "",
       clientId: "",
     },
+    testingEvnironments: [],
   };
 
   const [jiraTicket, setJiraTicket, removeJiraTicket] = useLocalStorage(
@@ -44,31 +46,47 @@ export default function JiraTicket() {
         <form>
           <label>
             Client Name
-            <input type="text" {...register("clientDetails.clientName")} />
+            <input {...register("clientDetails.clientName")} type="text" />
           </label>
           <label>
             Client Id
-            <input type="text" {...register("clientDetails.clientId")} />
+            <input {...register("clientDetails.clientId")} type="text" />
           </label>
           <label>
             Ticket Description
-            <input type="text" {...register("description")} />
+            <input {...register("description")} type="text" />
           </label>
           <div>Where did you test? </div>
           <label>
-            <input type="checkbox" value="UAT" />
+            <input
+              {...register("testingEvnironments")}
+              type="checkbox"
+              value="UAT"
+            />
             UAT
           </label>
           <label>
-            <input type="checkbox" value="UAT" />
+            <input
+              {...register("testingEvnironments")}
+              type="checkbox"
+              value="Inttest"
+            />
             Inttest
           </label>
           <label>
-            <input type="checkbox" value="UAT" />
+            <input
+              {...register("testingEvnironments")}
+              type="checkbox"
+              value="UATCJE"
+            />
             UAT CJE
           </label>
           <label>
-            <input type="checkbox" value="UAT" />
+            <input
+              {...register("testingEvnironments")}
+              type="checkbox"
+              value="QA10"
+            />
             QA10
           </label>
         </form>
