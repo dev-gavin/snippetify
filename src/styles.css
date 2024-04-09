@@ -1,6 +1,3 @@
-@import "./reset.css";
-
-.container {
-  margin-inline: auto;
-  width: 85%;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
