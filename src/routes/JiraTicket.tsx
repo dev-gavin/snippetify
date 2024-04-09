@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useLocalStorage } from "./useLocalStorage";
 
 type JiraTicket = {
+  title: string;
   description: string;
   clientDetails: {
     clientName: string;
@@ -12,6 +13,7 @@ type JiraTicket = {
 
 export default function JiraTicket() {
   let defaultValues: JiraTicket = {
+    title: "",
     description: "",
     clientDetails: {
       clientName: "",
@@ -45,17 +47,25 @@ export default function JiraTicket() {
       <div>
         <form>
           <label>
-            Client Name
+            Ticket Title:
+            <input {...register("title")} type="text" />
+          </label>
+
+          <label>
+            Client Name:
             <input {...register("clientDetails.clientName")} type="text" />
           </label>
+
           <label>
-            Client Id
+            Client Id:
             <input {...register("clientDetails.clientId")} type="text" />
           </label>
+
           <label>
-            Ticket Description
+            Ticket Description:
             <input {...register("description")} type="text" />
           </label>
+
           <div>Where did you test? </div>
           <label>
             <input
@@ -65,6 +75,7 @@ export default function JiraTicket() {
             />
             UAT
           </label>
+
           <label>
             <input
               {...register("testingEvnironments")}
@@ -73,6 +84,7 @@ export default function JiraTicket() {
             />
             Inttest
           </label>
+
           <label>
             <input
               {...register("testingEvnironments")}
@@ -81,6 +93,7 @@ export default function JiraTicket() {
             />
             UAT CJE
           </label>
+
           <label>
             <input
               {...register("testingEvnironments")}

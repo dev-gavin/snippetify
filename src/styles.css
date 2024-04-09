@@ -1,43 +1,6 @@
 @import "./reset.css";
 
-body {
-  padding: 3rem 0;
-}
-
 .container {
   margin-inline: auto;
   width: 85%;
-}
-
-.markdown-input {
-  display: block;
-  width: 100%;
-  padding: 1rem 2rem;
-  background-color: cornsilk;
-  resize: none;
-  overflow-y: hidden;
-
-  border: none;
-
-  font-family: monospace;
-  font-size: 1.2rem;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.markdown {
-  margin-top: 3rem;
-  padding: 1rem 2rem;
-
-  border-radius: 10px;
-  background-color: cornsilk;
-
-  /* this is the line that fixes the line break issue with markdown*/
-  white-space: pre-wrap;
-}
-
-.placeholder {
-  color: grey;
 }
