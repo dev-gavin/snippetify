@@ -1,18 +1,21 @@
-import sqlite3 from "sqlite3";
-import fs from "node:fs";
+import dbConnection from "./dbConnection";
 
-var dbDirFiles = fs.readdirSync("./src/db");
-if (!dbDirFiles.includes("database.db")) {
-  fs.writeFileSync("./src/db/database.db", "");
+type UserCredentials = { username: string; password: string };
+
+function createUser({ username, password }: UserCredentials) {
+  const createUserQuery = `
+    INSERT INTO users (username, password) VALUES
+    (?, ?)`;
+
+  return new Promise((resolve, reject) => {
+    dbConnection.run(createUserQuery, [username, password], function (err) {
+      if (err) {
+        reject(new Error(err.message));
+      } else {
+        resolve(this.lastID);
+      }
+    });
+  });
 }
 
-// connect to database
-var dbConnection = new sqlite3.Database(
-  "./src/db/database.db",
-  sqlite3.OPEN_READWRITE,
-  (err) => {
-    if (err) return console.error(err.message);
-  },
-);
-
-export default dbConnection;
+console.log(await createUser({ username: "gavin", password: "paswd" }));
