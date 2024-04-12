@@ -12,6 +12,7 @@
   "dependencies": {
     "@mdxeditor/editor": "^2.20.0",
     "@types/node": "^20.12.7",
+    "express": "^4.19.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.2",
