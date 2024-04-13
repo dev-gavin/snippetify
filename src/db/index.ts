@@ -22,16 +22,6 @@ function createUser({ username, password }: UserRecord) {
   return runQuery(createUserQuery, [username, password]);
 }
 
-type schema = {
-  snippets: {
-    title: string;
-    content: string;
-    userId: number;
-  };
-};
-
-// type SnippetRecord = { title: string; content: string; userId: number };
-
 type SnippetRecord = {
   snippetTitle: string;
   snippetContent: string;
@@ -43,7 +33,6 @@ export function createSnippet({
   snippetContent,
   userId,
 }: SnippetRecord) {
-  console.log(snippetContent);
   const createUserQuery = `
     INSERT INTO snippets (title, content, created_by_user_id) VALUES
     (?, ?, ?)`;
@@ -51,4 +40,18 @@ export function createSnippet({
   return runQuery(createUserQuery, [snippetTitle, snippetContent, userId]);
 }
 
-console.log(await createUser({ username: "gavin", password: "paswd" }));
+export async function getSnippet({ snippetId }) {
+  const getSnippetByIdQuery = `
+    SELECT * FROM snippets s WHERE s.id = ?;
+  `;
+  dbConnection.get(getSnippetByIdQuery, [snippetId], (err, row) => {
+    console.log(row);
+    return new Promise((res, rej) => {
+      if (err) {
+        rej(err);
+      } else {
+        res(row);
+      }
+    });
+  });
+}
