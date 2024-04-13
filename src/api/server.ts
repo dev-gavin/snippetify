@@ -12,9 +12,9 @@ app.use(express.urlencoded({ extended: true })); // de/encodes url properly to h
 // TODO: need to the snippet ID more clear, it actually passing an object
 app.get("/snippets/:snippetId", async (req, res) => {
   const snippetId = req.params;
+  const snippetData = await getSnippet(snippetId);
 
-  console.log(await getSnippet(snippetId));
-  res.send();
+  res.json(snippetData);
 });
 
 app.post("/snippets", async (req, res) => {

@@ -44,14 +44,14 @@ export async function getSnippet({ snippetId }) {
   const getSnippetByIdQuery = `
     SELECT * FROM snippets s WHERE s.id = ?;
   `;
-  dbConnection.get(getSnippetByIdQuery, [snippetId], (err, row) => {
-    console.log(row);
-    return new Promise((res, rej) => {
+  return new Promise((res, rej) => {
+    dbConnection.get(getSnippetByIdQuery, [snippetId], (err, row) => {
+      // console.log(row);
       if (err) {
-        rej(err);
-      } else {
-        res(row);
+        rej(new Error(err.message));
+        return;
       }
+      res(row);
     });
   });
 }
