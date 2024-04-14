@@ -15,9 +15,17 @@ app.use(express.urlencoded({ extended: true })); // de/encodes url properly to h
 
 app.get("/snippets", async (req: GetSnippetByIdReq, res) => {
   const { snippetId } = req.query;
-  const snippet = await getSnippetById({ snippetId });
-
-  res.send(snippet);
+  try {
+    const snippet = await getSnippetById({ snippetId });
+    if (snippet) {
+      res.send(snippet);
+    } else {
+      res.status(404);
+      res.send(`no snippet found for snippet id: ${snippetId}`);
+    }
+  } catch (e) {
+    return e;
+  }
 });
 
 app.post("/snippets", async (req: CreateSnippetReq, res) => {
