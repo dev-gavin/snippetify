@@ -20,12 +20,24 @@ export async function createSnippet({
   });
 }
 
-export async function getSnippetById({ snippetId }: GetSnippetByIdFields) {
-  console.log(snippetId);
+export async function getSnippetById({ snippetId }: { snippetId: number }) {
   try {
     return await snippet.findUnique({
       where: {
-        id: Number(snippetId),
+        id: snippetId,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+    return {};
+  }
+}
+
+export async function getSnippetsByUserId({ userId }: { userId: number }) {
+  try {
+    return await snippet.findMany({
+      where: {
+        created_by: userId,
       },
     });
   } catch (e) {
