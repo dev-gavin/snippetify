@@ -9,6 +9,9 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "prisma": {
+    "seed": "node ./prisma/seed.js"
+  },
   "dependencies": {
     "@mdxeditor/editor": "^2.20.0",
     "@prisma/client": "^5.12.1",
