@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@mdxeditor/editor": "^2.20.0",
+    "@prisma/client": "^5.12.1",
     "@types/node": "^20.12.7",
     "cors": "^2.8.5",
     "express": "^4.19.2",
@@ -37,6 +38,7 @@
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.13",
+    "prisma": "^5.12.1",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
