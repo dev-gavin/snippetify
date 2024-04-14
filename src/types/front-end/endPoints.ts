@@ -3,3 +3,7 @@ export type CreateSnippetFields = {
   content: string | undefined;
   userId: number;
 };
+
+export type GetSnippetByIdFields = {
+  snippetId: number;
+};
