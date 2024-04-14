@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import testSnippets from "./testSnippets.json";
 import MDEditor from "./components/MDEditor";
@@ -10,6 +11,29 @@ function shorten(text: string, textLength = 50) {
 }
 
 function App() {
+  const [currentSnippet, setCurrentSnippet] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    const fetchSnippet = async () => {
+      try {
+        const res = await fetch("http://localhost:8080/snippets/1");
+        const snippet = await res.json();
+        setCurrentSnippet(snippet);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSnippet();
+  }, []);
+
+  // console.log("test", currentSnippet);
+
   return (
     <>
       <ul>
@@ -38,9 +62,14 @@ function App() {
             ))}
           </div>
         </aside>
-        <div className="w-full">
-          <MDEditor />
-        </div>
+        {!isLoading && (
+          <>
+            <div className="w-full">
+              <h1>{currentSnippet?.title}</h1>
+              <MDEditor content={currentSnippet?.content || "no content"} />
+            </div>
+          </>
+        )}
       </main>
     </>
   );
