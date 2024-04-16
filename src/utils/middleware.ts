@@ -1,8 +1,9 @@
-import { Request } from "express";
-
-export function parseQueries(req: Request, res, next) {
+export function parseQueries(req, res, next) {
   const parsedQuery = Object.fromEntries(
-    Object.entries(req.query).map(([key, value]) => [key, parseValue(value)]),
+    Object.entries(req.query).map(([key, value]) => [
+      key,
+      parseValue(value as string),
+    ]),
   );
   req.query = parsedQuery;
   next();

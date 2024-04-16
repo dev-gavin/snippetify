@@ -1,16 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import {
-  CreateSnippetFields,
-  GetSnippetByIdFields,
-} from "../types/front-end/endPoints";
+import { CreateSnippetFields, GetSnippetByIdFields } from "../types/front-end/endPoints";
 
 const { snippet, user } = new PrismaClient();
 
-export async function createSnippet({
-  title,
-  content,
-  userId,
-}: CreateSnippetFields) {
+export async function createSnippet({ title, content, userId }: CreateSnippetFields) {
   return await snippet.create({
     data: {
       title: title,
@@ -42,6 +35,5 @@ export async function getSnippetsByUserId({ userId }: { userId: number }) {
     });
   } catch (e) {
     console.log(e);
-    return {};
   }
 }
