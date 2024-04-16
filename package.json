@@ -12,12 +12,16 @@
   "prisma": {
     "seed": "node ./prisma/seed.js"
   },
+  "prettier": {
+    "printWidth": 120
+  },
   "dependencies": {
     "@mdxeditor/editor": "^2.20.0",
     "@prisma/client": "^5.12.1",
     "@types/node": "^20.12.7",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "express-validator": "^7.0.1",
     "morgan": "^1.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
