@@ -3,7 +3,6 @@ import { PrismaClient } from "@prisma/client";
 const { snippet, user } = new PrismaClient();
 
 export async function createSnippet({ title, content, userId }) {
-  return {};
   try {
     return await snippet.create({
       data: {
@@ -18,16 +17,11 @@ export async function createSnippet({ title, content, userId }) {
 }
 
 export async function getSnippetById(snippetId: number) {
-  try {
-    return await snippet.findUnique({
-      where: {
-        id: snippetId,
-      },
-    });
-  } catch (e) {
-    console.log(e);
-    return {};
-  }
+  return await snippet.findUnique({
+    where: {
+      id: snippetId,
+    },
+  });
 }
 
 export async function getSnippetsByUserId(userId: number) {

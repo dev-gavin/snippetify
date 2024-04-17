@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, RequestHandler } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { query, validationResult, param, body } from "express-validator";
@@ -31,17 +31,18 @@ app.get("/snippets", getSnippetsValidators, async (req: Request, res: Response) 
 });
 
 const getSnippetByIdValidators = [param("snippetId").toInt()];
-app.get("/snippets/:snippetId", getSnippetByIdValidators, async (req: Request, res: Response) => {
+app.get("/snippets/:snippetId", getSnippetByIdValidators, async (req: Request, res: Response, next: NextFunction) => {
   const result = validationResult(req);
   if (!result.isEmpty()) return res.status(400).json({ errors: result.array() });
 
-  if (req.params.snippetId && typeof req.params.snippetId == "number") {
-    const snippet = await getSnippetById(req.params.snippetId);
-
-    if (snippet) {
+  if (typeof req.params.snippetId == "number") {
+    try {
+      const snippet = await getSnippetById(req.params.snippetId);
       res.json({ data: snippet });
-    } else {
-      res.status(404).json(`No Snippets Found for Id: ${req.query.userId}`);
+    } catch (e) {
+      const err = new Error(`could not get snippet id: ${req.params.snippetId}`);
+      err.statusCode = 500;
+      next(err);
     }
   }
 });
@@ -64,13 +65,16 @@ app.post("/snippets", createSnippetVaidators, async (req: Request, res: Response
   }
 });
 
-const testValidationChain = [query("test").exists().isIn(["yes", "no"]), query("test2").exists()];
+function errorHandler(err, req, res: Response, next) {
+  res.status(err.statusCode).json({ errors: err.message });
+}
 
-app.get("/test", testValidationChain, async (req, res) => {
-  const result = validationResult(req);
-  if (!result.isEmpty()) {
-    res.status(404).send(result.array());
-  }
-});
+function invalidPathHandler(req: Request, res: Response) {
+  res.status(404);
+  res.json({ errors: `invalid path:${req.url}` });
+}
+
+app.use(invalidPathHandler);
+app.use(errorHandler);
 
 export default app;
