@@ -30,6 +30,7 @@ export default function MDEditor({ content }: { content: string }) {
   return (
     <>
       <MDXEditor
+        placeholder={"# Markdown goes here"}
         ref={ref}
         onChange={console.log}
         markdown={"tets"}

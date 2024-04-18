@@ -1,6 +1,8 @@
 import { Snippet } from "@prisma/client";
 
-function shorten(text: string, textLength = 50) {
+function shorten(text: string | null, textLength = 50) {
+  if (!text) return "";
+
   if (text.length > textLength) {
     text = text.substring(0, textLength) + "…";
   }

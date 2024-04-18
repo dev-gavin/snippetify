@@ -29,6 +29,18 @@ function App() {
     fetchSnippets();
   }, []);
 
+  let timeoutId: number;
+  const debounce = (cb: Function, timoutLength = 1000) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(cb, timoutLength);
+  };
+
+  const handleSnippetChange = ({ target }) => {
+    debounce(() => console.log(target.value));
+  };
+
   return (
     <>
       <div>
@@ -44,7 +56,7 @@ function App() {
             <>
               <Sidebar snippets={snippets} />
               <div className="w-full">
-                <MDSnippet snippet={currentSnippet} />
+                <MDSnippet snippet={currentSnippet} handleSnippetChange={handleSnippetChange} />
               </div>
             </>
           )}
