@@ -17,6 +17,7 @@ function App() {
       try {
         const res = await fetch(`http://localhost:8080/snippets?userId=${userId}`);
         const { data } = await res.json();
+
         setCurrentSnippet(data[0]);
         setSnippets(data);
       } catch (err) {
@@ -44,13 +45,6 @@ function App() {
   return (
     <>
       <div>
-        <ul>
-          <li>
-            <Link className="bg-sky-500" to="/jira">
-              Link to JIRA
-            </Link>
-          </li>
-        </ul>
         <main className="flex gap-4">
           {!isLoading && (
             <>

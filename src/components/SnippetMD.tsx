@@ -16,7 +16,7 @@ import {
 import "@mdxeditor/editor/style.css";
 import { useEffect, useRef } from "react";
 
-export default function MDEditor({ content }: { content: string }) {
+export default function SnippetMD({ content }: { content: string }) {
   const ref = useRef<MDXEditorMethods>(null);
 
   useEffect(() => {
