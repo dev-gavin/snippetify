@@ -3,12 +3,28 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function seed() {
-  await prisma.user.createMany({
-    data: [
-      { username: "Gavin", password: "98787" },
-      { username: "Jaons", password: "9872vdsdf" },
-      { username: "Kenna", password: "87987" },
-    ],
+  async function seedUsers(userCount) {
+    const users = [];
+    for (let i = 0; i < userCount; i++) {
+      const username = `user${i + 1}`; // Generate unique usernames
+      const password = `password${i + 1}`; // Simple passwords for this example
+
+      users.push({ username, password });
+    }
+
+    try {
+      await prisma.user.createMany({
+        data: users,
+      });
+      console.log(`${userCount} users created successfully!`);
+    } catch (error) {
+      console.error("Error seeding users:", error);
+    }
+  }
+
+  seedUsers(50).catch((error) => {
+    console.error("Unhandled error in seeding:", error);
+    process.exit(1); // Exit process with an error code if seeding fails
   });
 }
 
