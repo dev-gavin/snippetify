@@ -23,6 +23,10 @@ export default function MDEditor({ content }: { content: string }) {
     ref.current?.setMarkdown(content);
   }, [content]);
 
+  const handleSave = () => {
+    console.log(ref.current?.getMarkdown());
+  };
+
   return (
     <>
       <MDXEditor
@@ -49,6 +53,9 @@ export default function MDEditor({ content }: { content: string }) {
           markdownShortcutPlugin(),
         ]}
       />
+      <button className="bg-black p-4 text-white" onClick={handleSave}>
+        Save Snippet
+      </button>
     </>
   );
 }
