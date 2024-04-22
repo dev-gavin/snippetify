@@ -10,6 +10,7 @@ app.use(morgan("dev")); // use morgan middleware globally
 app.use(cors());
 
 app.use(express.urlencoded({ extended: true })); // de/encodes url properly to help handle query strings
+app.use(express.json());
 
 app.use(router);
 app.use(invalidPathHandler);
