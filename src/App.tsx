@@ -1,16 +1,36 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Snippet } from "@prisma/client";
 import Sidebar from "./components/Sidebar";
-import MDSnippet from "./components/MDSnippet";
+import MDSnippetContainer from "./components/SnippetContainer";
 
-function App() {
+type FrontSnippet = Omit<Snippet, "id">;
+
+export default function App() {
   // NOTE: just for testing
   const userId = 1;
+  const snippets = useFetchUserSnippets(userId);
+  const [currentSnippet, setCurrentSnippets] = useState(snippets[0]);
 
-  const [currentSnippet, setCurrentSnippet] = useState<Snippet>();
-  const [snippets, setSnippets] = useState<Snippet[]>();
-  const [isLoading, setIsLoading] = useState(true);
+  const handleSnippetChange = ({ target }) => {};
+
+  return (
+    <>
+      <div>
+        <main className="flex gap-4">
+          <>
+            <Sidebar snippets={snippets} />
+            <div className="w-full">
+              <MDSnippetContainer snippet={currentSnippet} handleSnippetChange={handleSnippetChange} />
+            </div>
+          </>
+        </main>
+      </div>
+    </>
+  );
+}
+
+const useFetchUserSnippets = (userId: number) => {
+  const [snippets, setSnippets] = useState<Snippet[]>([]);
 
   useEffect(() => {
     const fetchSnippets = async () => {
@@ -18,46 +38,16 @@ function App() {
         const res = await fetch(`http://localhost:8080/snippets?userId=${userId}`);
         const { data } = await res.json();
 
-        setCurrentSnippet(data[0]);
-        setSnippets(data);
+        if (data) {
+          setSnippets(data);
+        }
       } catch (err) {
         console.log(err);
-      } finally {
-        setIsLoading(false);
       }
     };
 
     fetchSnippets();
-  }, []);
+  }, [userId]);
 
-  let timeoutId: number;
-  const debounce = (cb: Function, timoutLength = 1000) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-    timeoutId = setTimeout(cb, timoutLength);
-  };
-
-  const handleSnippetChange = ({ target }) => {
-    debounce(() => console.log(target.value));
-  };
-
-  return (
-    <>
-      <div>
-        <main className="flex gap-4">
-          {!isLoading && (
-            <>
-              <Sidebar snippets={snippets} />
-              <div className="w-full">
-                <MDSnippet snippet={currentSnippet} handleSnippetChange={handleSnippetChange} />
-              </div>
-            </>
-          )}
-        </main>
-      </div>
-    </>
-  );
-}
-
-export default App;
+  return snippets;
+};
