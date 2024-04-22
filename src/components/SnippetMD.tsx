@@ -16,7 +16,14 @@ import {
 import "@mdxeditor/editor/style.css";
 import { useEffect, useRef } from "react";
 
-export default function SnippetMD({ content }: { content: string }) {
+// TODO: better typing
+export default function SnippetMD({
+  content,
+  handleSnippetContentChange,
+}: {
+  content: string;
+  handleSnippetContentChange: Function;
+}) {
   const ref = useRef<MDXEditorMethods>(null);
 
   useEffect(() => {
@@ -32,7 +39,7 @@ export default function SnippetMD({ content }: { content: string }) {
       <MDXEditor
         placeholder={"# Markdown goes here"}
         ref={ref}
-        onChange={console.log}
+        onChange={() => handleSnippetContentChange(ref.current?.getMarkdown())}
         markdown={"tets"}
         plugins={[
           headingsPlugin(),

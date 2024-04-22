@@ -18,15 +18,13 @@ export default function Sidebar({ snippets }: { snippets: Snippet[] }) {
           {snippets.length > 0 &&
             snippets.map((snippet) => {
               return (
-                <>
-                  <a href="#">
-                    <div className="border-b border-blue-50 pl-4 hover:bg-red-900">
-                      <h2 className="my-2 font-bold">{snippet.title}</h2>
-                      <p>{snippet.content}</p>
-                      <p className="mt-2 text-sm text-gray-800">{snippet.created_by}</p>
-                    </div>
-                  </a>
-                </>
+                <a key={snippet.id} href="#">
+                  <div className="border-b border-blue-50 pl-4 hover:bg-red-900">
+                    <h2 className="my-2 font-bold">{snippet.title}</h2>
+                    <p>{snippet.content}</p>
+                    <p className="mt-2 text-sm text-gray-800">{snippet.created_by}</p>
+                  </div>
+                </a>
               );
             })}
         </div>

@@ -1,11 +1,25 @@
 import { Snippet } from "@prisma/client";
 import SnippetMD from "./SnippetMD";
 
-export default function MDSnippetContainer({ snippet }: { snippet: Snippet }) {
+// TODO: better typing
+export default function MDSnippetContainer({
+  snippet,
+  handleSnippetTitleChange,
+  handleSnippetContentChange,
+}: {
+  snippet: Snippet;
+  handleSnippetTitleChange: Function;
+  handleSnippetContentChange: Function;
+}) {
   return (
     <>
-      <input defaultValue={snippet?.title || ""} placeholder="New Snippet Title" id="snippetTitle"></input>
-      <SnippetMD content={snippet?.content || ""} />
+      <input
+        onChange={handleSnippetTitleChange}
+        defaultValue={snippet?.title || ""}
+        placeholder="New Snippet Title"
+        id="snippetTitle"
+      ></input>
+      <SnippetMD content={snippet?.content || ""} handleSnippetContentChange={handleSnippetContentChange} />
     </>
   );
 }
