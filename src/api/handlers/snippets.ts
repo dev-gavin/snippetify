@@ -1,6 +1,8 @@
 import prisma from "../db";
 import { Request, Response } from "express";
 
+// TODO: add error handling for handler with `where` clauses to handle error if record not found
+
 export async function getSnippetById(req: Request, res: Response) {
   const id = req.params.id;
 
@@ -35,4 +37,22 @@ export async function createSnippet(req: Request, res: Response) {
   });
 
   res.json({ data: createdSnippet });
+}
+
+export async function updateSnippet(req: Request, res: Response) {
+  const { title, content, userId } = req.body;
+  const snippetId = req.params.id;
+
+  const updatedSnippet = await prisma.snippet.update({
+    where: {
+      created_by: userId,
+      id: snippetId,
+    },
+    data: {
+      title,
+      content,
+    },
+  });
+
+  res.json({ data: updatedSnippet });
 }
