@@ -28,22 +28,18 @@ export default function App() {
     }
   };
 
-  // TODO: better typing
-  const handleSnippetTitleChange = ({ target }) => {
+  const handleSnippetTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentSnippet((prev) => {
-      return { ...prev, title: target.value };
+      return { ...prev, title: event.target.value };
     });
   };
 
-  // TODO: better typing
-  const handleSnippetContentChange = (content) => {
-    console.log(content);
+  const handleSnippetContentChange = (content: string) => {
     setCurrentSnippet((prev) => {
       return { ...prev, content: content };
     });
   };
 
-  console.log(currentSnippet);
   return (
     <>
       <div>
