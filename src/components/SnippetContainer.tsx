@@ -6,20 +6,23 @@ export default function MDSnippetContainer({
   snippet,
   handleSnippetTitleChange,
   handleSnippetContentChange,
+  setCurrentSnippet,
 }: {
-  snippet: Snippet;
+  snippet: Snippet | undefined;
   handleSnippetTitleChange: React.ChangeEventHandler<HTMLInputElement>;
   handleSnippetContentChange;
+  setCurrentSnippet: React.Dispatch<React.SetStateAction<Snippet>>;
 }) {
-  const updateSnippet = async () => {
+  const saveSnippetToDb = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/snippets/${snippet.id}`, {
+      const res = await fetch(`http://localhost:8080/snippets/${snippet?.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: snippet.created_by, title: snippet.title, content: snippet.content }),
+        body: JSON.stringify({ userId: snippet?.created_by, title: snippet?.title, content: snippet?.content }),
       });
-      const data = await res.json();
-      console.log(data);
+      const { data: savedSnippet } = await res.json();
+
+      setCurrentSnippet(savedSnippet);
     } catch (error) {
       console.log(error);
     }
@@ -34,7 +37,7 @@ export default function MDSnippetContainer({
         id="snippetTitle"
       ></input>
       <SnippetMD content={snippet?.content || ""} handleSnippetContentChange={handleSnippetContentChange} />
-      <button onClick={updateSnippet} className="bg-black p-4 text-white">
+      <button onClick={saveSnippetToDb} className="bg-black p-4 text-white">
         Save Snippet
       </button>
     </>

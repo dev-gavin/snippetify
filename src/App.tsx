@@ -6,17 +6,32 @@ import MDSnippetContainer from "./components/SnippetContainer";
 export default function App() {
   // NOTE: just for testing
   const userId = 1;
-  const { currentSnippet, setCurrentSnippet, snippets } = useFetchUserSnippets(userId);
+  const { snippets, setSnippets } = useFetchUserSnippets(userId);
+  const [currentSnippet, setCurrentSnippet] = useState<Snippet>();
+
+  if (snippets.length > 0 && !currentSnippet) {
+    setCurrentSnippet(snippets[0]);
+  }
 
   const handleSnippetTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentSnippet((prev) => {
       return { ...prev, title: event.target.value };
+    });
+
+    setSnippets((prev) => {
+      return prev.map((snippet) =>
+        snippet.id === currentSnippet?.id ? { ...snippet, title: event.target.value } : snippet,
+      );
     });
   };
 
   const handleSnippetContentChange = (markdown: string) => {
     setCurrentSnippet((prev) => {
       return { ...prev, content: markdown };
+    });
+
+    setSnippets((prev) => {
+      return prev.map((snippet) => (snippet.id === currentSnippet?.id ? { ...snippet, content: markdown } : snippet));
     });
   };
 
@@ -29,6 +44,7 @@ export default function App() {
             <div className="w-full">
               <MDSnippetContainer
                 snippet={currentSnippet}
+                setCurrentSnippet={setCurrentSnippet}
                 handleSnippetContentChange={handleSnippetContentChange}
                 handleSnippetTitleChange={handleSnippetTitleChange}
               />
@@ -42,7 +58,6 @@ export default function App() {
 
 const useFetchUserSnippets = (userId: number) => {
   const [snippets, setSnippets] = useState<Snippet[]>([]);
-  const [currentSnippet, setCurrentSnippet] = useState(snippets[0]);
 
   useEffect(() => {
     const fetchSnippets = async () => {
@@ -52,7 +67,6 @@ const useFetchUserSnippets = (userId: number) => {
 
         if (data) {
           setSnippets(data);
-          setCurrentSnippet(data[0]);
         }
       } catch (err) {
         console.log(err);
@@ -62,5 +76,5 @@ const useFetchUserSnippets = (userId: number) => {
     fetchSnippets();
   }, [userId]);
 
-  return { currentSnippet, setCurrentSnippet, snippets };
+  return { snippets, setSnippets };
 };
