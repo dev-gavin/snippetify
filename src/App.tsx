@@ -8,42 +8,21 @@ export default function App() {
   const userId = 1;
   const { currentSnippet, setCurrentSnippet, snippets } = useFetchUserSnippets(userId);
 
-  const createSnippet = async () => {
-    try {
-      const newSnippet = {
-        title: "test title",
-        content: "test content",
-        userId: userId,
-      };
-
-      const res = await fetch(`http://localhost:8080/snippets`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newSnippet),
-      });
-      const data = await res.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleSnippetTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentSnippet((prev) => {
       return { ...prev, title: event.target.value };
     });
   };
 
-  const handleSnippetContentChange = (content: string) => {
+  const handleSnippetContentChange = (markdown: string) => {
     setCurrentSnippet((prev) => {
-      return { ...prev, content: content };
+      return { ...prev, content: markdown };
     });
   };
 
   return (
     <>
       <div>
-        <button onClick={createSnippet}>Create Snippet</button>
         <main className="flex gap-4">
           <>
             <Sidebar snippets={snippets} />

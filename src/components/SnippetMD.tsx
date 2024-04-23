@@ -16,23 +16,19 @@ import {
 import "@mdxeditor/editor/style.css";
 import { useEffect, useRef } from "react";
 
-// TODO: better typing
 export default function SnippetMD({
   content,
   handleSnippetContentChange,
 }: {
   content: string;
-  handleSnippetContentChange: Function;
+  // TODO: better typing
+  handleSnippetContentChange;
 }) {
   const ref = useRef<MDXEditorMethods>(null);
 
   useEffect(() => {
     ref.current?.setMarkdown(content);
   }, [content]);
-
-  const handleSave = () => {
-    console.log(ref.current?.getMarkdown());
-  };
 
   return (
     <>
@@ -61,9 +57,6 @@ export default function SnippetMD({
           markdownShortcutPlugin(),
         ]}
       />
-      <button className="bg-black p-4 text-white" onClick={handleSave}>
-        Save Snippet
-      </button>
     </>
   );
 }
