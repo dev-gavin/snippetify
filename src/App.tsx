@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Snippet } from "@prisma/client";
 import Sidebar from "./components/Sidebar";
 import MDSnippetContainer from "./components/SnippetContainer";
+import { SnippetChangeHandler } from "./types";
 
 export type TSnippet = Snippet & { isCurrentSnippet: boolean };
 export type EditableTSnippetFields = Pick<TSnippet, "title" | "content">;
@@ -9,12 +10,12 @@ export type EditableTSnippetFields = Pick<TSnippet, "title" | "content">;
 export default function App() {
   // NOTE: just for testing
   const userId = 1;
-  const { snippets, setSnippets } = useFetchUserSnippets(userId);
+  const [snippets, setSnippets] = useFetchUserSnippets(userId);
   if (snippets.length == 0) return;
 
   const currentSnippet = snippets.find((snippet) => snippet.isCurrentSnippet == true);
 
-  const handleSnippetChange = <P extends keyof EditableTSnippetFields>(prop: P, value: TSnippet[P]) => {
+  const handleSnippetChange: SnippetChangeHandler = (prop, value) => {
     setSnippets((prev) => {
       return prev.map((snippet) => (snippet.id === currentSnippet?.id ? { ...snippet, [prop]: value } : snippet));
     });
@@ -58,5 +59,5 @@ const useFetchUserSnippets = (userId: number) => {
     fetchSnippets();
   }, [userId]);
 
-  return { snippets, setSnippets };
+  return [snippets, setSnippets] as const;
 };

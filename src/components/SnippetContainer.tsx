@@ -4,10 +4,7 @@ import { TSnippet, EditableTSnippetFields } from "../App";
 // TODO: better typing
 type MDSnippetContainerProps = {
   snippet: TSnippet;
-  handleSnippetChange: <P extends keyof Pick<EditableTSnippetFields, "title">>(
-    prop: P,
-    value: EditableTSnippetFields[P],
-  ) => void;
+  handleSnippetChange: <P extends keyof EditableTSnippetFields>(prop: P, value: TSnippet[P]) => void;
 };
 
 export default function MDSnippetContainer({ snippet, handleSnippetChange }: MDSnippetContainerProps) {

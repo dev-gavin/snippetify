@@ -15,21 +15,18 @@ import {
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
 import { useEffect, useRef } from "react";
-import { EditableTSnippetFields } from "../App";
+import { TSnippet, EditableTSnippetFields } from "../App";
 
 type SnippetMDProps = {
   content: string | null;
-  handleSnippetChange: <P extends keyof Pick<EditableTSnippetFields, "content">>(
-    prop: P,
-    value: EditableTSnippetFields[P],
-  ) => void;
+  handleSnippetChange: <P extends keyof EditableTSnippetFields>(prop: P, value: TSnippet[P]) => void;
 };
 
 export default function SnippetMD({ content, handleSnippetChange }: SnippetMDProps) {
   const ref = useRef<MDXEditorMethods>(null);
 
   useEffect(() => {
-    ref.current?.setMarkdown(content);
+    ref.current?.setMarkdown(content || "");
   }, [content]);
 
   return (
@@ -37,7 +34,7 @@ export default function SnippetMD({ content, handleSnippetChange }: SnippetMDPro
       <MDXEditor
         placeholder={"# Markdown goes here"}
         ref={ref}
-        onChange={() => handleSnippetChange("content", ref.current?.getMarkdown())}
+        onChange={() => handleSnippetChange("content", ref.current?.getMarkdown() || "")}
         markdown={"tets"}
         plugins={[
           headingsPlugin(),
