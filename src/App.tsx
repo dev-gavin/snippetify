@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import { Snippet } from "@prisma/client";
 import Sidebar from "./components/Sidebar";
 import MDSnippetContainer from "./components/SnippetContainer";
-import { SnippetChangeHandler } from "./types";
-
-export type TSnippet = Snippet & { isCurrentSnippet: boolean };
-export type EditableTSnippetFields = Pick<TSnippet, "title" | "content">;
+import { Snippet, SnippetChangeHandler } from "./types";
 
 export default function App() {
-  // NOTE: just for testing
+  // TODO: fix this in future to grab the user ID from somewhere else
   const userId = 1;
+
   const [snippets, setSnippets] = useFetchUserSnippets(userId);
   if (snippets.length == 0) return;
 
@@ -40,16 +37,18 @@ export default function App() {
 }
 
 const useFetchUserSnippets = (userId: number) => {
-  const [snippets, setSnippets] = useState<TSnippet[]>([]);
+  const [snippets, setSnippets] = useState<Snippet[]>([]);
 
   useEffect(() => {
     const fetchSnippets = async () => {
       try {
         const res = await fetch(`http://localhost:8080/snippets?userId=${userId}`);
         const { data } = await res.json();
-        data.forEach((snippet: TSnippet, index: number) => {
+
+        data.forEach((snippet: Snippet, index: number) => {
           index == 0 ? (snippet.isCurrentSnippet = true) : (snippet.isCurrentSnippet = false);
         });
+
         setSnippets(data);
       } catch (err) {
         console.log(err);
