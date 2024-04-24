@@ -1,10 +1,14 @@
 import prisma from "../db";
-import { Request, Response } from "express";
+import { RequestHandler } from "express";
 
 // TODO: add error handling for handler with `where` clauses to handle error if record not found
 
-export async function getSnippetById(req: Request, res: Response) {
+export const getSnippetById: RequestHandler = async (req, res, next) => {
   const id = req.params.id;
+  if (typeof id != "number") {
+    next(new Error("'id' passed to param is of wrong type"));
+    return;
+  }
 
   const snippet = await prisma.snippet.findUnique({
     where: {
@@ -12,10 +16,14 @@ export async function getSnippetById(req: Request, res: Response) {
     },
   });
   res.json({ data: snippet });
-}
+};
 
-export async function getSnippetsByUserId(req: Request, res: Response) {
+export const getSnippetsByUserId: RequestHandler = async (req, res, next) => {
   const userId = req.query.userId;
+  if (typeof userId != "number") {
+    next(new Error("'userId' passed to param is of wrong type"));
+    return;
+  }
 
   const snippets = await prisma.snippet.findMany({
     where: {
@@ -23,9 +31,9 @@ export async function getSnippetsByUserId(req: Request, res: Response) {
     },
   });
   res.json({ data: snippets });
-}
+};
 
-export async function createSnippet(req: Request, res: Response) {
+export const createSnippet: RequestHandler = async (req, res) => {
   const { title, content, userId } = req.body;
 
   const createdSnippet = await prisma.snippet.create({
@@ -37,11 +45,16 @@ export async function createSnippet(req: Request, res: Response) {
   });
 
   res.json({ data: createdSnippet });
-}
+};
 
-export async function updateSnippet(req: Request, res: Response) {
+export const updateSnippet: RequestHandler = async (req, res, next) => {
   const { title, content, userId } = req.body;
   const snippetId = req.params.id;
+
+  if (typeof snippetId != "number") {
+    next(new Error("'snippetId' passed to param is of wrong type"));
+    return;
+  }
 
   const updatedSnippet = await prisma.snippet.update({
     where: {
@@ -55,4 +68,4 @@ export async function updateSnippet(req: Request, res: Response) {
   });
 
   res.json({ data: updatedSnippet });
-}
+};

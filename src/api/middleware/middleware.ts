@@ -1,7 +1,7 @@
 import { validationResult } from "express-validator";
-import { Request, Response, NextFunction } from "express";
+import { ErrorRequestHandler, RequestHandler } from "express";
 
-export function handleInputErrors(req: Request, res: Response, next: NextFunction) {
+export const handleInputErrors: RequestHandler = (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -10,13 +10,13 @@ export function handleInputErrors(req: Request, res: Response, next: NextFunctio
   } else {
     next();
   }
-}
+};
 
-export function errorHandler(err, req: Request, res: Response) {
+export const errorHandler: ErrorRequestHandler = (err, req, res) => {
   res.status(err.statusCode).json({ errors: err.message });
-}
+};
 
-export function invalidPathHandler(req: Request, res: Response) {
+export const invalidPathHandler: RequestHandler = (req, res) => {
   res.status(404);
   res.json({ errors: `invalid path:${req.url}` });
-}
+};
