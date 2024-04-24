@@ -1,6 +1,7 @@
-import { Snippet } from "@prisma/client";
+import { Snippet as PrismaSnippet } from "@prisma/client";
 
-export type TSnippet = Snippet & { isCurrentSnippet: boolean };
-export type EditableTSnippetFields = Pick<TSnippet, "title" | "content">;
+export type Snippet = PrismaSnippet & { isCurrentSnippet: boolean };
 
-export type SnippetChangeHandler = <P extends keyof EditableTSnippetFields>(prop: P, value: TSnippet[P]) => void;
+export type EditableTSnippetFields = Pick<Snippet, "title" | "content" | "isCurrentSnippet">;
+
+export type SnippetChangeHandler = <P extends keyof EditableTSnippetFields>(prop: P, value: Snippet[P]) => void;

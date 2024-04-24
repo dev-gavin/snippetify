@@ -15,11 +15,11 @@ import {
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
 import { useEffect, useRef } from "react";
-import { TSnippet, EditableTSnippetFields } from "../App";
+import { SnippetChangeHandler } from "../types";
 
 type SnippetMDProps = {
   content: string | null;
-  handleSnippetChange: <P extends keyof EditableTSnippetFields>(prop: P, value: TSnippet[P]) => void;
+  handleSnippetChange: SnippetChangeHandler;
 };
 
 export default function SnippetMD({ content, handleSnippetChange }: SnippetMDProps) {
