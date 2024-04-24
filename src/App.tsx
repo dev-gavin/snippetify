@@ -30,11 +30,36 @@ export default function App() {
     });
   };
 
+  const handleCreateSnippet = async () => {
+    try {
+      const res = await fetch(`http://localhost:8080/snippets/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId }),
+      });
+
+      const { data: createdSnippet } = await res.json();
+
+      setSnippets((previous) => {
+        const updatedArray = previous.map((snippet) => {
+          if (snippet.isCurrentSnippet) return { ...snippet, isCurrentSnippet: false };
+          return snippet;
+        });
+        return [...updatedArray, { ...createdSnippet, isCurrentSnippet: true }];
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div>
         <main className="flex gap-4">
           <>
+            <button onClick={handleCreateSnippet} className="bg-sky-50 pointer">
+              CREATE SNIPPET
+            </button>
             <Sidebar snippets={snippets} handleChangeCurrentSnippet={handleChangeCurrentSnippet} />
             <div className="w-full">
               {currentSnippet && (
