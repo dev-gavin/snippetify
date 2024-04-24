@@ -8,13 +8,12 @@ const router = Router();
 //
 // Snippets
 //
-//
 router.get("/snippets/:id", param("id").exists().isNumeric().toInt(), handleInputErrors, getSnippetById);
 router.get("/snippets", query("userId").exists().isNumeric().toInt(), handleInputErrors, getSnippetsByUserId);
 router.post(
   "/snippets",
-  body("title").exists().notEmpty(),
-  body("content").exists().notEmpty(),
+  body("title").optional().notEmpty(),
+  body("content").optional().notEmpty(),
   body("userId").exists().isNumeric().toInt(),
   handleInputErrors,
   createSnippet,

@@ -1,5 +1,5 @@
-import prisma from "../db";
 import { RequestHandler } from "express";
+import prisma from "../db";
 
 // TODO: add error handling for handler with `where` clauses to handle error if record not found
 
@@ -34,7 +34,17 @@ export const getSnippetsByUserId: RequestHandler = async (req, res, next) => {
 };
 
 export const createSnippet: RequestHandler = async (req, res) => {
-  const { title, content, userId } = req.body;
+  const { body } = req;
+
+  if (!body.title) {
+    body.title = "{NEW SNIPPET}";
+  }
+
+  if (!body.content) {
+    body.content = "{NEW SNIPPET}";
+  }
+
+  const { title, userId, content } = body;
 
   const createdSnippet = await prisma.snippet.create({
     data: {
