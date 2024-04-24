@@ -18,12 +18,24 @@ export default function App() {
     });
   };
 
+  const handleChangeCurrentSnippet = (id: number) => {
+    if (id == currentSnippet?.id) return;
+
+    setSnippets((previous) => {
+      return previous.map((snippet) => {
+        if (id == snippet.id) return { ...snippet, isCurrentSnippet: true };
+        if (snippet.isCurrentSnippet) return { ...snippet, isCurrentSnippet: false };
+        return snippet;
+      });
+    });
+  };
+
   return (
     <>
       <div>
         <main className="flex gap-4">
           <>
-            <Sidebar snippets={snippets} />
+            <Sidebar snippets={snippets} handleChangeCurrentSnippet={handleChangeCurrentSnippet} />
             <div className="w-full">
               {currentSnippet && (
                 <MDSnippetContainer snippet={currentSnippet} handleSnippetChange={handleSnippetChange} />

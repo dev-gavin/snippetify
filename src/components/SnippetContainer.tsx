@@ -24,7 +24,7 @@ export default function MDSnippetContainer({ snippet, handleSnippetChange }: MDS
     <>
       <input
         onChange={(e) => handleSnippetChange("title", e.target.value)}
-        defaultValue={snippet?.title}
+        value={snippet?.title}
         placeholder="New Snippet Title"
         id="snippetTitle"
       ></input>
