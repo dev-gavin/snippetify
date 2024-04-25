@@ -11,21 +11,21 @@ const router = Router();
 router.get("/snippets/:id", param("id").exists().isNumeric().toInt(), handleInputErrors, getSnippetById);
 router.get("/snippets", query("userId").exists().isNumeric().toInt(), handleInputErrors, getSnippetsByUserId);
 router.post(
-  "/snippets",
-  body("title").optional().notEmpty(),
-  body("content").optional().notEmpty(),
-  body("userId").exists().isNumeric().toInt(),
-  handleInputErrors,
-  createSnippet,
+    "/snippets",
+    body("title").optional().notEmpty(),
+    body("content").optional().notEmpty(),
+    body("userId").exists().isNumeric().toInt(),
+    handleInputErrors,
+    createSnippet,
 );
 router.patch(
-  "/snippets/:id",
-  body("title").exists().notEmpty(),
-  body("content").exists().notEmpty(),
-  body("userId").exists().isNumeric().toInt(),
-  param("id").exists().isNumeric().toInt(),
-  handleInputErrors,
-  updateSnippet,
+    "/snippets/:id",
+    body("title").exists().notEmpty(),
+    body("content").exists().notEmpty(),
+    body("userId").exists().isNumeric().toInt(),
+    param("id").exists().isNumeric().toInt(),
+    handleInputErrors,
+    updateSnippet,
 );
 
 export default router;
