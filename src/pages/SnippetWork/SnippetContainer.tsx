@@ -7,13 +7,20 @@ type MDSnippetContainerProps = {
     handleSnippetChange: SnippetChangeHandler;
 };
 
-export default function MDSnippetContainer({ snippet, handleSnippetChange }: MDSnippetContainerProps) {
+export default function MDSnippetContainer({
+    snippet,
+    handleSnippetChange,
+}: MDSnippetContainerProps) {
     const saveSnippetToDb = async () => {
         try {
             await fetch(`http://localhost:8080/snippets/${snippet?.id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userId: snippet?.created_by, title: snippet?.title, content: snippet?.content }),
+                body: JSON.stringify({
+                    userId: snippet?.created_by,
+                    title: snippet?.title,
+                    content: snippet?.content,
+                }),
             });
         } catch (error) {
             console.log(error);
@@ -28,8 +35,14 @@ export default function MDSnippetContainer({ snippet, handleSnippetChange }: MDS
                 placeholder="New Snippet Title"
                 id="snippetTitle"
             ></input>
-            <SnippetMD content={snippet?.content} handleSnippetChange={handleSnippetChange} />
-            <button onClick={saveSnippetToDb} className="bg-black p-4 text-white">
+            <SnippetMD
+                content={snippet?.content}
+                handleSnippetChange={handleSnippetChange}
+            />
+            <button
+                onClick={saveSnippetToDb}
+                className="bg-black p-4 text-white"
+            >
                 Save Snippet
             </button>
         </>

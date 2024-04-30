@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import SnippetWork from "./pages/SnippetWork/index.tsx";
 import JiraTicket from "./routes/JiraTicket.tsx";
 import "./styles.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -8,7 +8,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
+        element: <SnippetWork />,
         errorElement: <h1>Error</h1>,
     },
     {
