@@ -25,6 +25,7 @@ model Snippet {
   content    String?
   created_by Int
   user       User    @relation(fields: [created_by], references: [id])
+  is_deleted Boolean @default(false)
 
   @@map("snippets")
 }
