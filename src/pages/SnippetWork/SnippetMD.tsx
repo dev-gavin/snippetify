@@ -35,6 +35,7 @@ export default function SnippetMD({
     return (
         <>
             <MDXEditor
+                className=""
                 placeholder={"# Markdown goes here"}
                 ref={ref}
                 onChange={() =>

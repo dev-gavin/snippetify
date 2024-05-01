@@ -10,18 +10,14 @@ const SidebarSnippet = ({
     handleChangeCurrentSnippet,
 }: SidebarSnippetProps) => {
     return (
-        <a
-            key={snippet.id}
+        <div
+            className="w-[200px] shrink-0 bg-gray-50 p-4 hover:bg-sky-50"
             onClick={() => handleChangeCurrentSnippet(snippet.id)}
         >
-            <div className="border-b border-blue-50 pl-4 hover:bg-red-900">
-                <h2 className="my-2 font-bold">{snippet.title}</h2>
-                <p>{shorten(snippet.content)}</p>
-                <p className="mt-2 text-sm text-gray-800">
-                    {snippet.created_by}
-                </p>
-            </div>
-        </a>
+            <p className="my-2 font-bold">{snippet.title}</p>
+            <p>{shorten(snippet.content)}</p>
+            <p className="mt-2 text-sm text-gray-800">{snippet.created_by}</p>
+        </div>
     );
 };
 

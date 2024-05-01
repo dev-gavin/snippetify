@@ -1,4 +1,4 @@
-import Sidebar from "./Sidebar";
+import SnippetDrawer from "./SnippetDrawer";
 import MDSnippetContainer from "./SnippetContainer";
 import { SnippetChangeHandler } from "../../types";
 import { useFetchUserSnippets } from "../../hooks/useFetchUserSnippets";
@@ -21,20 +21,6 @@ export default function SnippetWork() {
                     ? { ...snippet, [prop]: value }
                     : snippet,
             );
-        });
-    };
-
-    const handleChangeCurrentSnippet = (id: number) => {
-        if (id == currentSnippet?.id) return;
-
-        setSnippets((previous) => {
-            return previous.map((snippet) => {
-                if (id == snippet.id)
-                    return { ...snippet, isCurrentSnippet: true };
-                if (snippet.isCurrentSnippet)
-                    return { ...snippet, isCurrentSnippet: false };
-                return snippet;
-            });
         });
     };
 
@@ -67,14 +53,8 @@ export default function SnippetWork() {
     return (
         <>
             <div>
-                <main className="flex gap-4">
+                <main className="">
                     <>
-                        <Sidebar
-                            snippets={snippets}
-                            handleChangeCurrentSnippet={
-                                handleChangeCurrentSnippet
-                            }
-                        />
                         <div className="w-full">
                             {currentSnippet && (
                                 <MDSnippetContainer
@@ -83,6 +63,11 @@ export default function SnippetWork() {
                                 />
                             )}
                         </div>
+
+                        <SnippetDrawer
+                            snippets={snippets}
+                            setSnippets={setSnippets}
+                        />
                         <button
                             onClick={handleCreateSnippet}
                             className="pointer bg-sky-50"
