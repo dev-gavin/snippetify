@@ -1,6 +1,11 @@
 import { Router } from "express";
 import { handleInputErrors } from "./middleware/middleware";
-import { getSnippetById, getSnippetsByUserId, createSnippet, updateSnippet } from "./handlers/snippets";
+import {
+    getSnippetById,
+    getSnippetsByUserId,
+    createSnippet,
+    updateSnippet,
+} from "./handlers/snippets";
 import { body, param, query } from "express-validator";
 
 const router = Router();
@@ -8,8 +13,20 @@ const router = Router();
 //
 // Snippets
 //
-router.get("/snippets/:id", param("id").exists().isNumeric().toInt(), handleInputErrors, getSnippetById);
-router.get("/snippets", query("userId").exists().isNumeric().toInt(), handleInputErrors, getSnippetsByUserId);
+router.get(
+    "/snippets/:id",
+    param("id").exists().isNumeric().toInt(),
+    handleInputErrors,
+    getSnippetById,
+);
+
+router.get(
+    "/snippets",
+    query("userId").exists().isNumeric().toInt(),
+    handleInputErrors,
+    getSnippetsByUserId,
+);
+
 router.post(
     "/snippets",
     body("title").optional().notEmpty(),

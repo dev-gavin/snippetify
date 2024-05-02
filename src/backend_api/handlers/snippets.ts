@@ -28,6 +28,7 @@ export const getSnippetsByUserId: RequestHandler = async (req, res, next) => {
     const snippets = await prisma.snippet.findMany({
         where: {
             created_by: userId,
+            is_deleted: false,
         },
     });
     res.json({ data: snippets });
