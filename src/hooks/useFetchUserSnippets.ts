@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Snippet } from "../types";
+import { getSnippetsByUserId } from "../frontend_api/requests";
 
 export const useFetchUserSnippets = (userId: number) => {
     const [snippets, setSnippets] = useState<Snippet[]>([]);
@@ -7,18 +8,17 @@ export const useFetchUserSnippets = (userId: number) => {
     useEffect(() => {
         const fetchSnippets = async () => {
             try {
-                const res = await fetch(
-                    `http://localhost:8080/snippets?userId=${userId}`,
-                );
-                const { data } = await res.json();
+                // TODO: there needs to be better error handling here. What if we get an error
+                const { data } = await getSnippetsByUserId({ userId });
 
-                data.forEach((snippet: Snippet, index: number) => {
-                    index == 0
-                        ? (snippet.isCurrentSnippet = true)
-                        : (snippet.isCurrentSnippet = false);
+                const snippets = data.map((snippet: Snippet, index: number) => {
+                    return {
+                        ...snippet,
+                        isCurrentSnippet: index == 0 ? true : false,
+                    };
                 });
 
-                setSnippets(data);
+                setSnippets(snippets);
             } catch (err) {
                 console.log(err);
             }
