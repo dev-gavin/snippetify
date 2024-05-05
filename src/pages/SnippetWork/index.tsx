@@ -49,7 +49,7 @@ export default function SnippetWork() {
 
   return (
     <>
-      <main className="mx-auto w-[75%] max-w-[1500px]">
+      <main className="mx-auto w-[75%] max-w-[1500px] font-mono">
         <>
           <div>
             {currentSnippet && (

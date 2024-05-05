@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-midnight;
+  }
+}
+
+.mdxeditor {
+  @apply bg-sun-50;
+  overflow: hidden;
+  border-radius: 15px;
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  ul {
+    list-style: initial;
+    padding-inline-start: 40px;
+  }
+}
+
+.mdxeditor-toolbar {
+  @apply bg-midnight-600;
+  @apply text-sun-500;
+  border-radius: 0;
+}
