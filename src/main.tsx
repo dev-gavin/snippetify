@@ -6,20 +6,20 @@ import "./styles.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <SnippetWork />,
-        errorElement: <h1>Error</h1>,
-    },
-    {
-        path: "jira/",
-        element: <JiraTicket />,
-    },
+  {
+    path: "/",
+    element: <SnippetWork />,
+    errorElement: <h1>Error</h1>,
+  },
+  {
+    path: "jira/",
+    element: <JiraTicket />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-    <React.StrictMode>
-        <RouterProvider router={router} />
-    </React.StrictMode>,
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>,
 );
 // ReactDOM.createRoot(document.getElementById("root")!).render(<RouterProvider router={router} />);
